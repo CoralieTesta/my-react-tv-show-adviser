@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { TVShowAPI } from "./api/tv-show";
 import { TVShowDetail } from "./components/TVShowDetail/TVShowDetail";
 import { BACKDROP_BASE_URL } from "./config";
+import { Logo } from "./components/Logo/Logo";
+import logo from "./assets/images/logo.png"
 import s from "./style.module.css";
 import "./global.css"
+import { TVShowListItem } from "./components/TVShowListItem/TVShowListItem";
+
 
 export function App() {
   const [currentTVShow, setCurrentTVShow] = useState();
@@ -18,7 +22,9 @@ export function App() {
     fetchPopulars();
   }, []);
 
-  console.log("***", currentTVShow);
+  function setCurrentTVShowFromRecommendation(tvShow){
+    alert(JSON.stringify(tvShow))
+  }
 
   return (
     <div
@@ -32,8 +38,7 @@ export function App() {
       <div className={s.header}>
         <div className="row">
           <div className="col-4">
-            <div>Logo here</div>
-            <div>subtitle</div>
+            <Logo image={logo} title="Watowatch" subtitle="Find a show you may like"/>
           </div>
           <div className="col-md-12 col-lg-4">
             <input style={{ width: "100%" }} type="text" />
@@ -44,7 +49,7 @@ export function App() {
         {currentTVShow && <TVShowDetail tvShow={currentTVShow} />}
       </div>
       <div className={s.recommended_shows}>
-        Recommended tv shows
+        {currentTVShow && <TVShowListItem onClick={setCurrentTVShowFromRecommendation} tvShow={currentTVShow} />}
       </div>
     </div>
   );
